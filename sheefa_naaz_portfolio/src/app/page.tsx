@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { motion } from 'motion/react';
-import Navigation from '@/components/navigation';
-import HeroStellar from '@/components/sections/hero-stellar';
-import FeaturedWorkStellarEnhanced from '@/components/sections/featured-work-stellar-enhanced';
-import StatsStellarEnhanced from '@/components/sections/stats-stellar-enhanced';
-import SkillsStellarEnhanced from '@/components/sections/skills-stellar-enhanced';
-import ExperienceStellarEnhanced from '@/components/sections/experience-stellar-enhanced';
-import ContactStellar from '@/components/sections/contact-stellar';
+import { motion } from "motion/react";
+import Navigation from "@/components/navigation";
+import HeroStellar from "@/components/sections/hero-stellar";
+import FeaturedWorkStellarEnhanced from "@/components/sections/featured-work-stellar-enhanced";
+import StatsStellarEnhanced from "@/components/sections/stats-stellar-enhanced";
+import SkillsStellarEnhanced from "@/components/sections/skills-stellar-enhanced";
+import ExperienceStellarEnhanced from "@/components/sections/experience-stellar-enhanced";
+import ContactStellar from "@/components/sections/contact-stellar";
 
 export default function Home() {
   return (
@@ -21,7 +21,7 @@ export default function Home() {
             opacity: [0.2, 0.35, 0.2],
             y: [0, 20, 0],
           }}
-          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div
           className="absolute top-1/3 right-0 w-80 h-80 bg-gradient-to-br from-teal-500/10 to-cyan-500/5 rounded-full blur-3xl"
@@ -30,7 +30,12 @@ export default function Home() {
             opacity: [0.2, 0.35, 0.2],
             y: [0, -20, 0],
           }}
-          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2,
+          }}
         />
         <motion.div
           className="absolute bottom-0 left-1/2 w-96 h-96 bg-gradient-to-br from-cyan-500/5 to-emerald-500/5 rounded-full blur-3xl"
@@ -39,11 +44,16 @@ export default function Home() {
             opacity: [0.15, 0.3, 0.15],
             x: [0, 30, 0],
           }}
-          transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut', delay: 4 }}
+          transition={{
+            duration: 14,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 4,
+          }}
         />
       </div>
 
-      <Navigation />
+      {/* <Navigation /> */}
       <HeroStellar />
       <FeaturedWorkStellarEnhanced />
       <StatsStellarEnhanced />
@@ -61,7 +71,8 @@ export default function Home() {
       >
         <div className="max-w-7xl mx-auto text-center space-y-4">
           <p className="text-muted-foreground">
-            Designed & built with <span className="text-emerald-400">✦</span> by Sheefu
+            Designed & built with <span className="text-emerald-400">✦</span> by
+            Sheefu
           </p>
           <p className="text-sm text-muted-foreground">
             © {new Date().getFullYear()} All rights reserved

@@ -1,307 +1,711 @@
-'use client';
+"use client";
 
-import { motion, useScroll, useTransform } from 'motion/react';
-import { useRef } from 'react';
+import { useState, useRef, useEffect } from "react";
 
-const ExperienceStellarEnhanced = () => {
-  const sectionRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start 0.8', 'end 0.2'],
-  });
+const EXPERIENCES = [
+  {
+    id: "01",
+    title: "Software Development Engineer",
+    company: "HighRadius Technologies",
+    period: "2022 – Present",
+    type: "Full-time",
+    color: "#10b981",
+    tag: "Current",
+    metrics: [
+      { value: "1500+", label: "Enterprise Users" },
+      { value: "9%", label: "Bundle Reduction" },
+      { value: "85%", label: "Test Coverage" },
+    ],
+    achievements: [
+      "Architected multi-tiered React + TypeScript systems serving 1500+ enterprise users across financial workflows",
+      "Reduced frontend bundle size by 9% through strategic code-splitting and lazy loading",
+      "Migrated complex test suites to React 18 achieving 85% coverage — zero regressions",
+      "Designed robust Redux state management for real-time financial data visualization at scale",
+      "Led code reviews and mentored junior developers, elevating team-wide code quality",
+    ],
+    skills: [
+      "React",
+      "TypeScript",
+      "Redux",
+      "System Design",
+      "Performance Optimization",
+    ],
+  },
+  {
+    id: "02",
+    title: "Full-Stack Developer",
+    company: "Independent Projects",
+    period: "2021 – 2022",
+    type: "Freelance",
+    color: "#06b6d4",
+    tag: "Prior",
+    metrics: [
+      { value: "60%", label: "Perf Gain" },
+      { value: "5+", label: "Products" },
+      { value: "3", label: "Tech Stacks" },
+    ],
+    achievements: [
+      "Built AI-powered analytics dashboard with real-time data visualization and predictive charting",
+      "Developed computer vision pipeline using YOLOv5 and OpenCV — 60% throughput improvement",
+      "Created production full-stack apps with Node.js backends and React frontends",
+      "Implemented JWT authentication and role-based access control across multiple platforms",
+      "Deployed on cloud infrastructure with CI/CD pipelines; near-zero downtime releases",
+    ],
+    skills: ["React", "Node.js", "Python", "ML / CV", "DevOps"],
+  },
+];
 
-  const experiences = [
-    {
-      title: 'Software Development Engineer',
-      company: 'HighRadius Technologies',
-      period: '2022 - Present',
-      type: 'Full-time',
-      achievements: [
-        'Architected multi-tiered React + TypeScript systems serving 1500+ enterprise users',
-        'Reduced frontend bundle size by 9% through strategic optimization',
-        'Migrated complex test suites to React 18 with 85% test coverage',
-        'Designed and implemented robust Redux state management for financial data visualization',
-        'Led code reviews and mentored junior developers on best practices',
-      ],
-      skills: ['React', 'TypeScript', 'Redux', 'System Design', 'Performance Optimization'],
-      highlight: true,
-    },
-    {
-      title: 'Full-Stack Developer',
-      company: 'Independent Projects',
-      period: '2021 - 2022',
-      type: 'Freelance',
-      achievements: [
-        'Built AI-powered analytics dashboard with real-time data visualization',
-        'Developed computer vision pipeline using YOLOv5 and OpenCV',
-        'Created full-stack applications with Node.js backend and React frontend',
-        'Implemented JWT authentication and role-based access control',
-        'Deployed applications on cloud infrastructure with CI/CD pipelines',
-      ],
-      skills: ['React', 'Node.js', 'Python', 'ML', 'DevOps'],
-      highlight: false,
-    },
-  ];
+const HIGHLIGHTS = [
+  {
+    icon: "⬡",
+    value: "Hacktoberfest",
+    label: "Open Source Contributor",
+    color: "#10b981",
+  },
+  {
+    icon: "◈",
+    value: "1500+",
+    label: "Enterprise Users Served",
+    color: "#06b6d4",
+  },
+  { icon: "◆", value: "60%", label: "Performance Gain", color: "#8b5cf6" },
+  { icon: "◉", value: "9.01 / 10", label: "Academic CGPA", color: "#f59e0b" },
+];
 
-  const achievements = [
-    { icon: '🏆', title: 'Hacktoberfest Contributor', description: 'Open-source contributions recognized' },
-    { icon: '📊', title: '1500+ Users Served', description: 'Enterprise-scale systems' },
-    { icon: '⚡', title: '60% Performance Gain', description: 'Data processing optimization' },
-    { icon: '🎓', title: '9.01/10 CGPA', description: 'Academic excellence' },
-  ];
+function useInView(threshold = 0.15) {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) setVisible(true);
+      },
+      { threshold },
+    );
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+  return [ref, visible];
+}
+
+function MetricPill({ value, label, color }) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        padding: "10px 18px",
+        background: `${color}0d`,
+        border: `1px solid ${color}33`,
+        borderRadius: 6,
+        minWidth: 80,
+      }}
+    >
+      <span
+        style={{
+          fontSize: 22,
+          fontWeight: 700,
+          color,
+          fontFamily: "'DM Mono', monospace",
+          lineHeight: 1,
+        }}
+      >
+        {value}
+      </span>
+      <span
+        style={{
+          fontSize: 10,
+          color: "#64748b",
+          marginTop: 4,
+          letterSpacing: "0.08em",
+          textTransform: "uppercase",
+          textAlign: "center",
+        }}
+      >
+        {label}
+      </span>
+    </div>
+  );
+}
+
+function ExperienceCard({ exp, index, isActive, onClick }) {
+  const [cardRef, cardVisible] = useInView();
 
   return (
-    <section id="experience" className="py-24 px-4 sm:px-6 lg:px-8 relative" ref={sectionRef}>
-      <div className="max-w-7xl mx-auto">
-        {/* Section Header with Scroll Animation */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="space-y-4 mb-16"
+    <div
+      ref={cardRef}
+      onClick={onClick}
+      style={{
+        opacity: cardVisible ? 1 : 0,
+        transform: cardVisible ? "translateX(0)" : "translateX(-28px)",
+        transition: `opacity 0.6s ease ${index * 0.15}s, transform 0.6s ease ${index * 0.15}s`,
+        cursor: "pointer",
+      }}
+    >
+      {/* Card shell */}
+      <div
+        style={{
+          position: "relative",
+          background: isActive
+            ? "rgba(255,255,255,0.035)"
+            : "rgba(255,255,255,0.015)",
+          border: `1px solid ${isActive ? exp.color + "55" : "rgba(255,255,255,0.07)"}`,
+          borderRadius: 10,
+          padding: "28px 32px",
+          transition: "all 0.3s ease",
+          overflow: "hidden",
+        }}
+      >
+        {/* Left color bar */}
+        <div
+          style={{
+            position: "absolute",
+            left: 0,
+            top: 0,
+            bottom: 0,
+            width: isActive ? 3 : 0,
+            background: `linear-gradient(180deg, ${exp.color}, transparent)`,
+            borderRadius: "10px 0 0 10px",
+            transition: "width 0.3s ease",
+          }}
+        />
+
+        {/* Top row */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "flex-start",
+            justifyContent: "space-between",
+            marginBottom: 20,
+            gap: 16,
+          }}
         >
-          <motion.div
-            className="flex items-center gap-3"
-            initial={{ x: -50, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            transition={{ delay: 0.1, duration: 0.5 }}
-            viewport={{ once: true }}
-          >
-            <motion.div
-              className="h-1 bg-gradient-to-r from-emerald-500 to-teal-500"
-              initial={{ width: 0 }}
-              whileInView={{ width: 48 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
-              viewport={{ once: true }}
-            />
-            <span className="text-emerald-400 font-semibold text-sm uppercase tracking-wider">
-              Professional Journey
-            </span>
-          </motion.div>
-
-          <motion.h2
-            className="text-5xl sm:text-6xl font-display font-bold text-foreground"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15, duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            Experience & <br />
-            <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
-              Achievements
-            </span>
-          </motion.h2>
-        </motion.div>
-
-        {/* Timeline with Advanced Scroll Animations */}
-        <div className="space-y-12 mb-16">
-          {experiences.map((exp, idx) => {
-            const expRef = useRef(null);
-            const { scrollYProgress: expProgress } = useScroll({
-              target: expRef,
-              offset: ['start 0.8', 'center 0.3'],
-            });
-
-            const contentX = useTransform(expProgress, [0, 1], [-50, 0]);
-            const contentOpacity = useTransform(expProgress, [0, 1], [0, 1]);
-            const lineScale = useTransform(expProgress, [0, 1], [0, 1]);
-
-            return (
-              <motion.div
-                key={idx}
-                ref={expRef}
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ duration: 0.6, delay: idx * 0.1 }}
-                viewport={{ once: true }}
-                className="group relative"
+          <div>
+            {/* Index + tag */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+                marginBottom: 8,
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: "'DM Mono', monospace",
+                  fontSize: 11,
+                  color: exp.color,
+                  letterSpacing: "0.15em",
+                }}
               >
-                {/* Animated Timeline Line */}
-                <motion.div
-                  style={{ scaleY: lineScale, opacity: contentOpacity }}
-                  className="absolute left-0 top-12 bottom-0 w-1 bg-gradient-to-b from-emerald-500 via-teal-500 to-transparent origin-top"
-                />
-
-                {/* Timeline Dot with Pulse Animation */}
-                <motion.div
-                  className="absolute left-0 top-6 w-3 h-3 bg-emerald-500 rounded-full -translate-x-1 ring-4 ring-background"
-                  whileHover={{ scale: 1.2 }}
-                  initial={{ scale: 0 }}
-                  whileInView={{ scale: 1 }}
-                  transition={{ delay: 0.2 + idx * 0.1 }}
-                  viewport={{ once: true }}
-                >
-                  <motion.div
-                    className="absolute inset-0 rounded-full bg-emerald-500/50"
-                    animate={{ scale: [1, 1.8, 1] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  />
-                </motion.div>
-
-                {/* Content Card with Scroll-based Animation */}
-                <motion.div
-                  style={{ x: contentX, opacity: contentOpacity }}
-                  className="ml-8 p-6 rounded-xl border border-emerald-500/20 bg-gradient-to-br from-emerald-500/5 to-transparent hover:border-emerald-500/40 transition-all"
-                  whileHover={{ y: -4 }}
-                >
-                  {/* Animated Background Glow */}
-                  <motion.div
-                    className="absolute inset-0 rounded-xl bg-gradient-to-br from-emerald-500/10 via-transparent to-teal-500/5"
-                    initial={{ opacity: 0 }}
-                    whileHover={{ opacity: 1 }}
-                    transition={{ duration: 0.3 }}
-                  />
-
-                  {/* Header */}
-                  <motion.div
-                    className="flex items-start justify-between mb-4 relative z-10"
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.25 + idx * 0.1 }}
-                    viewport={{ once: true }}
-                  >
-                    <div>
-                      <h3 className="text-2xl font-display font-bold text-foreground group-hover:text-emerald-400 transition-colors">
-                        {exp.title}
-                      </h3>
-                      <p className="text-lg text-emerald-400 font-semibold">{exp.company}</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-sm text-muted-foreground">{exp.period}</p>
-                      <motion.span
-                        className="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full mt-2"
-                        initial={{ scale: 0.8, opacity: 0 }}
-                        whileInView={{ scale: 1, opacity: 1 }}
-                        transition={{ delay: 0.3 + idx * 0.1 }}
-                        viewport={{ once: true }}
-                      >
-                        {exp.type}
-                      </motion.span>
-                    </div>
-                  </motion.div>
-
-                  {/* Achievements with Staggered Animation */}
-                  <motion.ul
-                    className="space-y-2 mb-6 relative z-10"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    transition={{ delay: 0.3 + idx * 0.1 }}
-                    viewport={{ once: true }}
-                  >
-                    {exp.achievements.map((achievement, i) => (
-                      <motion.li
-                        key={i}
-                        initial={{ opacity: 0, x: -15 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{
-                          delay: 0.35 + idx * 0.1 + i * 0.04,
-                          duration: 0.4,
-                        }}
-                        viewport={{ once: true }}
-                        className="flex gap-3 text-muted-foreground group/item"
-                      >
-                        <motion.span
-                          className="text-emerald-400 font-bold flex-shrink-0"
-                          whileHover={{ x: 4 }}
-                        >
-                          →
-                        </motion.span>
-                        <span className="group-hover/item:text-foreground transition-colors">
-                          {achievement}
-                        </span>
-                      </motion.li>
-                    ))}
-                  </motion.ul>
-
-                  {/* Skills with Wave Effect */}
-                  <motion.div
-                    className="flex flex-wrap gap-2 relative z-10"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    transition={{ delay: 0.4 + idx * 0.1 }}
-                    viewport={{ once: true }}
-                  >
-                    {exp.skills.map((skill, i) => (
-                      <motion.span
-                        key={skill}
-                        whileHover={{ scale: 1.08, y: -2 }}
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        transition={{
-                          delay: 0.45 + idx * 0.1 + i * 0.03,
-                          duration: 0.3,
-                        }}
-                        viewport={{ once: true }}
-                        className="px-3 py-1 bg-emerald-500/10 text-emerald-400 text-xs font-semibold rounded-full border border-emerald-500/20 hover:border-emerald-500/50 transition-colors"
-                      >
-                        {skill}
-                      </motion.span>
-                    ))}
-                  </motion.div>
-                </motion.div>
-              </motion.div>
-            );
-          })}
+                {exp.id}
+              </span>
+              <span
+                style={{
+                  fontSize: 10,
+                  letterSpacing: "0.12em",
+                  textTransform: "uppercase",
+                  padding: "2px 8px",
+                  background: `${exp.color}18`,
+                  border: `1px solid ${exp.color}44`,
+                  borderRadius: 4,
+                  color: exp.color,
+                }}
+              >
+                {exp.tag}
+              </span>
+            </div>
+            <h3
+              style={{
+                fontSize: 22,
+                fontWeight: 700,
+                color: "#f1f5f9",
+                lineHeight: 1.2,
+                fontFamily: "'Syne', sans-serif",
+                marginBottom: 4,
+                transition: "color 0.2s",
+              }}
+            >
+              {exp.title}
+            </h3>
+            <p
+              style={{
+                fontSize: 14,
+                color: exp.color,
+                fontWeight: 600,
+                letterSpacing: "0.04em",
+              }}
+            >
+              {exp.company}
+            </p>
+          </div>
+          <div style={{ textAlign: "right", flexShrink: 0 }}>
+            <div
+              style={{
+                fontSize: 12,
+                color: "#475569",
+                fontFamily: "'DM Mono', monospace",
+                letterSpacing: "0.06em",
+              }}
+            >
+              {exp.period}
+            </div>
+            <div
+              style={{
+                marginTop: 6,
+                fontSize: 11,
+                color: "#64748b",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+              }}
+            >
+              {exp.type}
+            </div>
+          </div>
         </div>
 
-        {/* Achievements Grid with Scroll Animation */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          viewport={{ once: true }}
-          className="space-y-4 mb-8"
+        {/* Metrics row */}
+        <div
+          style={{
+            display: "flex",
+            gap: 10,
+            marginBottom: 24,
+            flexWrap: "wrap",
+          }}
         >
-          <motion.h3
-            className="text-2xl font-display font-bold text-foreground"
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.35 }}
-            viewport={{ once: true }}
+          {exp.metrics.map((m) => (
+            <MetricPill
+              key={m.label}
+              value={m.value}
+              label={m.label}
+              color={exp.color}
+            />
+          ))}
+        </div>
+
+        {/* Achievements — expand on active */}
+        <div
+          style={{
+            maxHeight: isActive ? 600 : 0,
+            overflow: "hidden",
+            transition: "max-height 0.5s cubic-bezier(0.22,1,0.36,1)",
+          }}
+        >
+          <div
+            style={{
+              borderTop: "1px solid rgba(255,255,255,0.06)",
+              paddingTop: 20,
+              marginBottom: 20,
+            }}
           >
-            Highlights
-          </motion.h3>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {achievements.map((achievement, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{
-                  delay: 0.4 + idx * 0.05,
-                  duration: 0.5,
+            {exp.achievements.map((a, i) => (
+              <div
+                key={i}
+                style={{
+                  display: "flex",
+                  gap: 12,
+                  marginBottom: 12,
+                  alignItems: "flex-start",
+                  opacity: isActive ? 1 : 0,
+                  transform: isActive ? "translateX(0)" : "translateX(-8px)",
+                  transition: `opacity 0.4s ease ${0.1 + i * 0.06}s, transform 0.4s ease ${0.1 + i * 0.06}s`,
                 }}
-                viewport={{ once: true }}
-                whileHover={{ y: -6, borderColor: 'rgba(16, 185, 129, 0.5)' }}
-                className="p-4 rounded-lg border border-emerald-500/20 bg-emerald-500/5 hover:bg-emerald-500/10 transition-colors relative overflow-hidden"
               >
-                {/* Animated Background on Hover */}
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent opacity-0"
-                  whileHover={{ opacity: 1 }}
-                  transition={{ duration: 0.3 }}
-                />
-
-                <motion.div
-                  className="text-3xl mb-2 relative z-10"
-                  animate={{ rotate: [0, 10, 0] }}
-                  transition={{ duration: 3, repeat: Infinity, delay: idx * 0.3 }}
-                  whileHover={{ scale: 1.2 }}
+                <span
+                  style={{
+                    color: exp.color,
+                    fontSize: 14,
+                    lineHeight: 1.7,
+                    flexShrink: 0,
+                    fontFamily: "'DM Mono', monospace",
+                  }}
                 >
-                  {achievement.icon}
-                </motion.div>
-
-                <h4 className="font-semibold text-foreground mb-1 relative z-10">{achievement.title}</h4>
-                <p className="text-sm text-muted-foreground relative z-10">{achievement.description}</p>
-              </motion.div>
+                  →
+                </span>
+                <span
+                  style={{ fontSize: 14, color: "#94a3b8", lineHeight: 1.7 }}
+                >
+                  {a}
+                </span>
+              </div>
             ))}
           </div>
-        </motion.div>
-      </div>
-    </section>
-  );
-};
 
-export default ExperienceStellarEnhanced;
+          {/* Skills */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+            {exp.skills.map((sk) => (
+              <span
+                key={sk}
+                style={{
+                  fontSize: 11,
+                  color: exp.color,
+                  padding: "4px 12px",
+                  background: `${exp.color}10`,
+                  border: `1px solid ${exp.color}30`,
+                  borderRadius: 4,
+                  fontFamily: "'DM Mono', monospace",
+                  letterSpacing: "0.06em",
+                }}
+              >
+                {sk}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Collapsed hint */}
+        {!isActive && (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              fontSize: 12,
+              color: "#475569",
+              fontFamily: "'DM Mono', monospace",
+              marginTop: 4,
+            }}
+          >
+            <span style={{ color: exp.color }}>+</span> Click to expand{" "}
+            {exp.achievements.length} achievements
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default function ExperienceStellar() {
+  const [activeIdx, setActiveIdx] = useState(0);
+  const [headerRef, headerVisible] = useInView();
+  const [hlRef, hlVisible] = useInView();
+
+  return (
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Mono:wght@400;500&display=swap');
+        @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes scanline {
+          0% { transform: translateY(-100%); }
+          100% { transform: translateY(400%); }
+        }
+      `}</style>
+
+      <section
+        id="experience"
+        style={{
+          background: "#0a0a0f",
+          padding: "100px 0",
+          position: "relative",
+          overflow: "hidden",
+          fontFamily: "'DM Mono', monospace",
+          color: "#e2e8f0",
+        }}
+      >
+        {/* Dot grid */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage:
+              "radial-gradient(circle, rgba(16,185,129,0.10) 1px, transparent 1px)",
+            backgroundSize: "32px 32px",
+            pointerEvents: "none",
+          }}
+        />
+
+        {/* Scanline accent */}
+        <div
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            height: 1,
+            background:
+              "linear-gradient(90deg, transparent, rgba(16,185,129,0.3), transparent)",
+            animation: "scanline 8s linear infinite",
+            pointerEvents: "none",
+            zIndex: 0,
+          }}
+        />
+
+        <div
+          style={{
+            maxWidth: 1100,
+            margin: "0 auto",
+            padding: "0 32px",
+            position: "relative",
+            zIndex: 1,
+          }}
+        >
+          {/* ── Section header ── */}
+          <div
+            ref={headerRef}
+            style={{
+              marginBottom: 64,
+              opacity: headerVisible ? 1 : 0,
+              transform: headerVisible ? "translateY(0)" : "translateY(24px)",
+              transition: "opacity 0.7s ease, transform 0.7s ease",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+                marginBottom: 16,
+              }}
+            >
+              <div style={{ width: 40, height: 2, background: "#10b981" }} />
+              <span
+                style={{
+                  fontSize: 11,
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  color: "#10b981",
+                }}
+              >
+                Professional Journey
+              </span>
+            </div>
+            <h2
+              style={{
+                fontSize: "clamp(38px, 5vw, 60px)",
+                fontWeight: 800,
+                lineHeight: 1.05,
+                fontFamily: "'Syne', sans-serif",
+                color: "#f1f5f9",
+                marginBottom: 8,
+              }}
+            >
+              Experience &{" "}
+              <span
+                style={{
+                  background: "linear-gradient(135deg, #10b981, #06b6d4)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
+                Achievements
+              </span>
+            </h2>
+            <p
+              style={{
+                fontSize: 15,
+                color: "#475569",
+                maxWidth: 480,
+                lineHeight: 1.7,
+              }}
+            >
+              Click a role to see the full impact breakdown — metrics,
+              accomplishments, and tech stack.
+            </p>
+          </div>
+
+          {/* ── Two-column layout: timeline + cards ── */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "48px 1fr",
+              gap: 0,
+              marginBottom: 80,
+            }}
+          >
+            {/* Timeline rail */}
+            <div
+              style={{
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              {EXPERIENCES.map((exp, i) => (
+                <div
+                  key={exp.id}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    flex: i < EXPERIENCES.length - 1 ? 1 : "none",
+                  }}
+                >
+                  {/* Node */}
+                  <div
+                    onClick={() => setActiveIdx(i)}
+                    style={{
+                      width: 14,
+                      height: 14,
+                      borderRadius: "50%",
+                      background: activeIdx === i ? exp.color : "#1e293b",
+                      border: `2px solid ${exp.color}`,
+                      cursor: "pointer",
+                      transition: "all 0.25s ease",
+                      boxShadow:
+                        activeIdx === i ? `0 0 14px ${exp.color}88` : "none",
+                      zIndex: 1,
+                      marginTop: 32,
+                    }}
+                  />
+                  {/* Connector line */}
+                  {i < EXPERIENCES.length - 1 && (
+                    <div
+                      style={{
+                        flex: 1,
+                        width: 1,
+                        background: "rgba(255,255,255,0.07)",
+                        marginTop: 8,
+                        minHeight: 40,
+                      }}
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Cards column */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+              {EXPERIENCES.map((exp, i) => (
+                <ExperienceCard
+                  key={exp.id}
+                  exp={exp}
+                  index={i}
+                  isActive={activeIdx === i}
+                  onClick={() => setActiveIdx(activeIdx === i ? -1 : i)}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* ── Highlights grid ── */}
+          <div
+            ref={hlRef}
+            style={{
+              opacity: hlVisible ? 1 : 0,
+              transform: hlVisible ? "translateY(0)" : "translateY(24px)",
+              transition: "opacity 0.7s ease 0.2s, transform 0.7s ease 0.2s",
+            }}
+          >
+            {/* Label row */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+                marginBottom: 24,
+              }}
+            >
+              <div style={{ width: 24, height: 2, background: "#10b981" }} />
+              <span
+                style={{
+                  fontSize: 11,
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  color: "#475569",
+                }}
+              >
+                Key Highlights
+              </span>
+              <div
+                style={{
+                  flex: 1,
+                  height: 1,
+                  background: "rgba(255,255,255,0.05)",
+                }}
+              />
+            </div>
+
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                gap: 16,
+              }}
+            >
+              {HIGHLIGHTS.map((hl, i) => (
+                <div
+                  key={hl.label}
+                  style={{
+                    padding: "22px 24px",
+                    background: "rgba(255,255,255,0.02)",
+                    border: "1px solid rgba(255,255,255,0.07)",
+                    borderRadius: 8,
+                    position: "relative",
+                    overflow: "hidden",
+                    opacity: hlVisible ? 1 : 0,
+                    transform: hlVisible ? "translateY(0)" : "translateY(16px)",
+                    transition: `opacity 0.5s ease ${0.3 + i * 0.08}s, transform 0.5s ease ${0.3 + i * 0.08}s`,
+                    cursor: "default",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.border = `1px solid ${hl.color}44`;
+                    e.currentTarget.style.background = `${hl.color}08`;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.border =
+                      "1px solid rgba(255,255,255,0.07)";
+                    e.currentTarget.style.background = "rgba(255,255,255,0.02)";
+                  }}
+                >
+                  {/* Corner glyph */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 16,
+                      right: 18,
+                      fontSize: 20,
+                      color: `${hl.color}30`,
+                      fontFamily: "monospace",
+                    }}
+                  >
+                    {hl.icon}
+                  </div>
+
+                  <div
+                    style={{
+                      fontSize: 28,
+                      fontWeight: 700,
+                      color: hl.color,
+                      fontFamily: "'Syne', sans-serif",
+                      lineHeight: 1,
+                      marginBottom: 8,
+                    }}
+                  >
+                    {hl.value}
+                  </div>
+
+                  <div
+                    style={{
+                      fontSize: 13,
+                      color: "#cbd5e1",
+                      fontWeight: 500,
+                      marginBottom: 2,
+                      fontFamily: "sans-serif",
+                    }}
+                  >
+                    {hl.label}
+                  </div>
+
+                  {/* Bottom accent line */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      height: 2,
+                      background: `linear-gradient(90deg, ${hl.color}55, transparent)`,
+                      borderRadius: "0 0 8px 8px",
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
