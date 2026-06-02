@@ -73,7 +73,7 @@ const HIGHLIGHTS = [
 ];
 
 function useInView(threshold = 0.15) {
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement | null>(null);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -85,7 +85,7 @@ function useInView(threshold = 0.15) {
     if (ref.current) obs.observe(ref.current);
     return () => obs.disconnect();
   }, []);
-  return [ref, visible];
+  return [ref, visible] as const;
 }
 
 function MetricPill({ value, label, color }) {

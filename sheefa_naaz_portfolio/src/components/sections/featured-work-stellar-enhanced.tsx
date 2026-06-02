@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { motion } from 'motion/react';
-import { ExternalLink, Github, TrendingUp } from 'lucide-react';
-import { useRef } from 'react';
-import { useScroll, useTransform } from 'motion/react';
+import { motion } from "motion/react";
+import { ExternalLink, Github, TrendingUp } from "lucide-react";
+import { useRef } from "react";
+import { useScroll, useTransform } from "motion/react";
 
 interface FeaturedProject {
   id: string;
@@ -24,57 +24,64 @@ const FeaturedWorkStellarEnhanced = () => {
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ['start 0.8', 'end 0.2'],
+    offset: ["start 0.8", "end 0.2"],
   });
 
   const projects: FeaturedProject[] = [
     {
-      id: '1',
-      title: 'Enterprise Analytics Dashboard',
-      description: 'AI-powered analytics platform serving 1500+ enterprise users with real-time data visualization, predictive insights, and role-based access control.',
-      impact: 'Reduced data processing time by 60%',
-      tags: ['React', 'TypeScript', 'Redux', 'Flask', 'ECharts', 'JWT Auth'],
-      github: 'https://github.com/sheefanaaz123/Analytics-App',
-      demo: 'https://analytics-app-demo.com',
-      image: 'analytics',
+      id: "1",
+      title: "Enterprise Analytics Dashboard",
+      description:
+        "AI-powered analytics platform serving 1500+ enterprise users with real-time data visualization, predictive insights, and role-based access control.",
+      impact: "Reduced data processing time by 60%",
+      tags: ["React", "TypeScript", "Redux", "Flask", "ECharts", "JWT Auth"],
+      github: "https://github.com/sheefanaaz123/Analytics-App",
+      demo: "https://analytics-app-demo.com",
+      image: "analytics",
       metrics: [
-        { label: 'Users Served', value: '1500+' },
-        { label: 'Dashboard Performance', value: '9.2/10' },
-        { label: 'Data Accuracy', value: '99.8%' },
+        { label: "Users Served", value: "1500+" },
+        { label: "Dashboard Performance", value: "9.2/10" },
+        { label: "Data Accuracy", value: "99.8%" },
       ],
     },
     {
-      id: '2',
-      title: 'Intelligent Systems Architecture',
-      description: 'Multi-tiered React + TypeScript system handling complex state management for financial data visualization and real-time updates at enterprise scale.',
-      impact: 'Bundle size reduction: 9% improvement',
-      tags: ['React', 'TypeScript', 'Redux', 'System Design', 'Performance'],
-      github: 'https://github.com/sheefanaaz123/InsightIQ',
-      image: 'systems',
+      id: "2",
+      title: "Intelligent Systems Architecture",
+      description:
+        "Multi-tiered React + TypeScript system handling complex state management for financial data visualization and real-time updates at enterprise scale.",
+      impact: "Bundle size reduction: 9% improvement",
+      tags: ["React", "TypeScript", "Redux", "System Design", "Performance"],
+      github: "https://github.com/sheefanaaz123/InsightIQ",
+      image: "systems",
       metrics: [
-        { label: 'Load Time', value: '1.2s' },
-        { label: 'Bundle Size', value: '↓9%' },
-        { label: 'Test Coverage', value: '85%' },
+        { label: "Load Time", value: "1.2s" },
+        { label: "Bundle Size", value: "↓9%" },
+        { label: "Test Coverage", value: "85%" },
       ],
     },
     {
-      id: '3',
-      title: 'Computer Vision Pipeline',
-      description: 'Real-time vehicle detection and counting system using YOLOv5 and OpenCV. Deployed for automated traffic monitoring and analysis.',
-      impact: 'Processing 30+ frames per second',
-      tags: ['Python', 'YOLOv5', 'OpenCV', 'ML', 'Real-time Processing'],
-      github: 'https://github.com/sheefanaaz123/Vehicle-Detection-and-Counting',
-      image: 'cv',
+      id: "3",
+      title: "Computer Vision Pipeline",
+      description:
+        "Real-time vehicle detection and counting system using YOLOv5 and OpenCV. Deployed for automated traffic monitoring and analysis.",
+      impact: "Processing 30+ frames per second",
+      tags: ["Python", "YOLOv5", "OpenCV", "ML", "Real-time Processing"],
+      github: "https://github.com/sheefanaaz123/Vehicle-Detection-and-Counting",
+      image: "cv",
       metrics: [
-        { label: 'Detection Accuracy', value: '94%' },
-        { label: 'Processing Speed', value: '30 FPS' },
-        { label: 'Latency', value: '<50ms' },
+        { label: "Detection Accuracy", value: "94%" },
+        { label: "Processing Speed", value: "30 FPS" },
+        { label: "Latency", value: "<50ms" },
       ],
     },
   ];
 
   return (
-    <section id="projects" className="py-24 px-4 sm:px-6 lg:px-8 relative" ref={containerRef}>
+    <section
+      id="projects"
+      className="py-24 px-4 sm:px-6 lg:px-8 relative"
+      ref={containerRef}
+    >
       <div className="max-w-7xl mx-auto">
         {/* Section Header with Scroll Animation */}
         <motion.div
@@ -123,8 +130,9 @@ const FeaturedWorkStellarEnhanced = () => {
             transition={{ delay: 0.3 }}
             viewport={{ once: true }}
           >
-            Selected projects demonstrating expertise in full-stack development, system architecture, and
-            delivering measurable business impact at enterprise scale.
+            Selected projects demonstrating expertise in full-stack development,
+            system architecture, and delivering measurable business impact at
+            enterprise scale.
           </motion.p>
         </motion.div>
 
@@ -134,7 +142,7 @@ const FeaturedWorkStellarEnhanced = () => {
             const projectRef = useRef(null);
             const { scrollYProgress: projectProgress } = useScroll({
               target: projectRef,
-              offset: ['start 0.8', 'center 0.3'],
+              offset: ["start 0.8", "center 0.3"],
             });
 
             const imageScale = useTransform(projectProgress, [0, 1], [0.8, 1]);
@@ -142,7 +150,7 @@ const FeaturedWorkStellarEnhanced = () => {
             const contentX = useTransform(
               projectProgress,
               [0, 1],
-              [idx % 2 === 0 ? -50 : 50, 0]
+              [idx % 2 === 0 ? -50 : 50, 0],
             );
 
             return (
@@ -158,7 +166,7 @@ const FeaturedWorkStellarEnhanced = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                   {/* Content with Scroll Animation */}
                   <motion.div
-                    className={`space-y-6 order-${idx % 2 === 0 ? '1' : '2'}`}
+                    className={`space-y-6 order-${idx % 2 === 0 ? "1" : "2"}`}
                     style={{ x: contentX }}
                   >
                     <div className="space-y-3">
@@ -192,7 +200,9 @@ const FeaturedWorkStellarEnhanced = () => {
                       className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/10 border border-emerald-500/30 rounded-lg"
                     >
                       <TrendingUp size={18} className="text-emerald-400" />
-                      <span className="text-sm font-semibold text-emerald-400">{project.impact}</span>
+                      <span className="text-sm font-semibold text-emerald-400">
+                        {project.impact}
+                      </span>
                     </motion.div>
 
                     {/* Metrics with Staggered Reveal */}
@@ -206,8 +216,12 @@ const FeaturedWorkStellarEnhanced = () => {
                           viewport={{ once: true }}
                           className="p-3 bg-card border border-emerald-500/20 rounded-lg hover:border-emerald-500/50 transition-colors"
                         >
-                          <div className="text-2xl font-bold text-emerald-400">{metric.value}</div>
-                          <div className="text-xs text-muted-foreground mt-1">{metric.label}</div>
+                          <div className="text-2xl font-bold text-emerald-400">
+                            {metric.value}
+                          </div>
+                          <div className="text-xs text-muted-foreground mt-1">
+                            {metric.label}
+                          </div>
                         </motion.div>
                       ))}
                     </div>
@@ -268,7 +282,7 @@ const FeaturedWorkStellarEnhanced = () => {
 
                   {/* Visual Element with Scale and Parallax */}
                   <motion.div
-                    className={`order-${idx % 2 === 0 ? '2' : '1'}`}
+                    className={`order-${idx % 2 === 0 ? "2" : "1"}`}
                     style={{
                       scale: imageScale,
                       opacity: imageOpacity,
@@ -279,7 +293,7 @@ const FeaturedWorkStellarEnhanced = () => {
                       <motion.div
                         className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity"
                         animate={{
-                          backgroundPosition: ['0% 0%', '100% 100%'],
+                          backgroundPosition: ["0% 0%", "100% 100%"],
                         }}
                         transition={{ duration: 5, repeat: Infinity }}
                       />
@@ -300,18 +314,22 @@ const FeaturedWorkStellarEnhanced = () => {
                           animate={{ y: [0, 10, 0] }}
                           transition={{ duration: 3, repeat: Infinity }}
                         >
-                          {project.image === 'analytics'
-                            ? '📊'
-                            : project.image === 'systems'
-                              ? '🏗️'
-                              : '🎥'}
+                          {project.image === "analytics"
+                            ? "📊"
+                            : project.image === "systems"
+                              ? "🏗️"
+                              : "🎥"}
                         </motion.div>
                         <h4 className="text-lg font-semibold text-center text-foreground">
                           {project.title}
                         </h4>
                         <motion.div
                           animate={{ rotate: 360 }}
-                          transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+                          transition={{
+                            duration: 8,
+                            repeat: Infinity,
+                            ease: "linear",
+                          }}
                           className="absolute top-4 right-4 w-8 h-8 border-2 border-emerald-500/30 border-t-emerald-500 rounded-full"
                         />
                       </div>
@@ -342,7 +360,9 @@ const FeaturedWorkStellarEnhanced = () => {
           viewport={{ once: true }}
           className="text-center pt-12"
         >
-          <p className="text-muted-foreground mb-6">Want to explore more projects?</p>
+          <p className="text-muted-foreground mb-6">
+            Want to explore more projects?
+          </p>
           <motion.a
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
