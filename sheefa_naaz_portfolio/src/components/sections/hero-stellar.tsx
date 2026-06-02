@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, type CSSProperties } from "react";
 
 const ROLES = [
   "Full-Stack Engineer",
@@ -39,8 +39,8 @@ export default function HeroStellar() {
   const [typing, setTyping] = useState(true);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [loaded, setLoaded] = useState(false);
-  const [activeSkill, setActiveSkill] = useState(null);
-  const heroRef = useRef(null);
+  const [activeSkill, setActiveSkill] = useState<number | null>(null);
+  const heroRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     setTimeout(() => setLoaded(true), 100);
@@ -83,7 +83,7 @@ export default function HeroStellar() {
     return () => window.removeEventListener("mousemove", handleMove);
   }, []);
 
-  const s = {
+  const s: Record<string, CSSProperties | any> = {
     hero: {
       position: "relative",
       minHeight: "100vh",
@@ -380,7 +380,7 @@ export default function HeroStellar() {
       borderRadius: 2,
       overflow: "hidden",
     },
-    skillFill: (pct, active) => ({
+    skillFill: (pct: number, active: boolean): CSSProperties => ({
       height: "100%",
       width: loaded ? `${pct}%` : "0%",
       background: active
@@ -396,7 +396,7 @@ export default function HeroStellar() {
       gap: 16,
       marginBottom: 16,
     },
-    timelineDot: (color) => ({
+    timelineDot: (color: string): CSSProperties => ({
       width: 10,
       height: 10,
       borderRadius: "50%",
@@ -517,8 +517,12 @@ export default function HeroStellar() {
                   textDecoration: "none",
                   transition: "color 0.2s",
                 }}
-                onMouseEnter={(e) => (e.target.style.color = "#10b981")}
-                onMouseLeave={(e) => (e.target.style.color = "#64748b")}
+                onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => {
+                  e.currentTarget.style.color = "#10b981";
+                }}
+                onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => {
+                  e.currentTarget.style.color = "#64748b";
+                }}
               >
                 {item}
               </a>
