@@ -10,7 +10,7 @@ export const siteConfig = {
     github: "https://github.com",
     twitter: "https://twitter.com",
   },
-  creator: "Your Name",
+  creator: "Sheefa Naaz",
 };
 
 export type SiteConfig = typeof siteConfig;
