@@ -368,7 +368,7 @@ const SkillsStellarEnhanced = () => {
                       Article Playlist
                     </p>
                     <h4 className="text-lg font-bold text-foreground group-hover:text-emerald-400 transition-colors">
-                      DSA & Frontend System Design
+                      Data Structures and Algorithms Deep Dives
                     </h4>
                     <p className="text-sm text-muted-foreground mt-0.5">
                       All articles by Sheefa Naaz · Updated regularly
@@ -413,7 +413,7 @@ const SkillsStellarEnhanced = () => {
                       Article Playlist
                     </p>
                     <h4 className="text-lg font-bold text-foreground group-hover:text-emerald-400 transition-colors">
-                      DSA & Frontend System Design
+                      System Design for Engineers
                     </h4>
                     <p className="text-sm text-muted-foreground mt-0.5">
                       All articles by Sheefa Naaz · Updated regularly
