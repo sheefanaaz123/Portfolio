@@ -6,22 +6,32 @@ import { StatsFs } from "node:fs";
 
 const ROLES = [
   "Full-Stack Engineer",
-  "System Architect",
-  "Performance Engineer",
   "Open Source Contributor",
+  "Technical Content Writer",
 ];
 
 const SKILLS = [
-  { name: "React / Next.js", level: 92 },
-  { name: "Node.js / Go", level: 85 },
-  { name: "Python / Flask", level: 88 },
-  { name: "Cloud / DevOps", level: 80 },
+  { name: "React • Next.js • TypeScript • JavaScript", level: 92 },
+  { name: "• Python • Node.js • Express", level: 85 },
+  { name: "• Git • Docker • Kubernetes", level: 80 },
 ];
 
 const STATS = [
-  { value: "2", label: "Years Building", sub: "production systems" },
-  { value: "1500", label: "Enterprise Users", sub: "served daily" },
-  { value: "3", label: "Products Shipped", sub: "end-to-end" },
+  {
+    value: "2",
+    label: "Years Experience",
+    sub: "enterprise software development",
+  },
+  {
+    value: "1500",
+    label: "Daily Active Users",
+    sub: "served through production systems",
+  },
+  {
+    value: "3",
+    label: "Production Releases",
+    sub: "delivered end-to-end",
+  },
 ];
 
 const TIMELINE = [
@@ -519,7 +529,7 @@ export default function HeroStellarBits() {
   return (
     <motion.section
       ref={heroRef}
-      className="relative min-h-screen bg-slate-950 overflow-hidden pt-20 pb-10"
+      className="relative h-screen bg-slate-950 overflow-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
@@ -558,13 +568,13 @@ export default function HeroStellarBits() {
 
       {/* Content */}
       <motion.div
-        className="relative z-10 max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-12 items-center min-h-screen"
+        className="relative z-10 max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-8 items-center h-full"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
         {/* Left column */}
-        <motion.div className="lg:col-span-2 space-y-6">
+        <motion.div className="lg:col-span-2 space-y-3">
           {/* Badge */}
           <motion.div
             variants={itemVariants}
@@ -578,12 +588,12 @@ export default function HeroStellarBits() {
               }}
               transition={{ duration: 2, repeat: Infinity }}
             />
-            Available for Senior / Staff Roles
+            Open to Frontend & Full-Stack Opportunities
           </motion.div>
 
           {/* Main heading */}
           <motion.div variants={blurInVariants}>
-            <h1 className="text-6xl md:text-7xl font-bold leading-tight">
+            <h1 className="text-[clamp(2rem,4.5vw,4.5rem)] font-bold leading-tight">
               <GradientText>Sheefa Naaz</GradientText>
             </h1>
           </motion.div>
@@ -594,22 +604,22 @@ export default function HeroStellarBits() {
           {/* Tagline */}
           <motion.p
             variants={itemVariants}
-            className="text-lg text-slate-400 max-w-lg leading-relaxed"
+            className="text-base text-slate-400 max-w-lg leading-relaxed"
           >
-            I build systems that scale. Obsessed with performance, clean
-            architecture, and shipping products that real users love — from
-            greenfield MVPs to enterprise-grade platforms.
+            Software Developer with 2 years of experience building enterprise
+            applications at HighRadius. Specialized in React, Next.js,
+            TypeScript and performance-focused UI architecture.
           </motion.p>
 
           {/* Stats */}
           <motion.div
             variants={containerVariants}
-            className="grid grid-cols-3 gap-8 py-8 border-t border-b border-white/10"
+            className="grid grid-cols-3 gap-6 py-3 border-t border-b border-white/10"
           >
             {STATS.map((stat, i) => (
               <motion.div key={i} variants={itemVariants}>
                 <motion.div
-                  className="text-4xl font-bold text-emerald-500 mb-1"
+                  className="text-3xl font-bold text-emerald-500 mb-0.5"
                   animate={{ y: [0, -2, 0] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 >
@@ -647,7 +657,7 @@ export default function HeroStellarBits() {
               View My Work
             </AnimatedButton>
             <AnimatedButton
-              href="mailto:sheefanaaz@example.com"
+              href="/resume/Sheefa-Naaz-Resume.pdf"
               variant="secondary"
               icon={
                 <svg
@@ -679,7 +689,7 @@ export default function HeroStellarBits() {
 
         {/* Right column - Cards panel */}
         <motion.div
-          className="lg:col-span-1 space-y-4"
+          className="lg:col-span-1 space-y-3"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
@@ -690,16 +700,16 @@ export default function HeroStellarBits() {
             animate="visible"
             whileInView="float"
             viewport={{ once: false }}
-            className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-6 hover:bg-white/10 hover:border-emerald-500/20 transition-all"
+            className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-4 hover:bg-white/10 hover:border-emerald-500/20 transition-all"
           >
             <motion.h3
               variants={itemVariants}
-              className="text-xs font-bold text-slate-300 uppercase tracking-widest mb-6 flex items-center gap-2"
+              className="text-xs font-bold text-slate-300 uppercase tracking-widest mb-3 flex items-center gap-2"
             >
               Core Skills
               <div className="flex-1 h-px bg-white/10" />
             </motion.h3>
-            <motion.div variants={containerVariants} className="space-y-4">
+            <motion.div variants={containerVariants} className="space-y-2">
               {SKILLS.map((skill) => (
                 <SkillCard
                   key={skill.name}
@@ -717,43 +727,20 @@ export default function HeroStellarBits() {
             whileInView="float"
             viewport={{ once: false }}
             transition={{ delay: 0.6 }}
-            className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-6 hover:bg-white/10 hover:border-emerald-500/20 transition-all"
+            className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-4 hover:bg-white/10 hover:border-emerald-500/20 transition-all"
           >
             <motion.h3
               variants={itemVariants}
-              className="text-xs font-bold text-slate-300 uppercase tracking-widest mb-6 flex items-center gap-2"
+              className="text-xs font-bold text-slate-300 uppercase tracking-widest mb-3 flex items-center gap-2"
             >
               Experience
               <div className="flex-1 h-px bg-white/10" />
             </motion.h3>
-            <motion.div variants={containerVariants} className="space-y-6">
+            <motion.div variants={containerVariants} className="space-y-3">
               {TIMELINE.map((item, i) => (
                 <TimelineItem key={item.year} {...item} index={i} />
               ))}
             </motion.div>
-          </motion.div>
-
-          {/* Open to work */}
-          <motion.div
-            variants={itemVariants}
-            whileHover={{ scale: 1.02 }}
-            className="bg-emerald-500/10 backdrop-blur-xl border border-emerald-500/20 rounded-xl p-4 hover:bg-emerald-500/15 hover:border-emerald-500/40 transition-all cursor-pointer"
-          >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <motion.div
-                  className="w-2 h-2 rounded-full bg-emerald-500"
-                  animate={{ scale: [1, 1.3, 1] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                />
-                <span className="text-sm font-semibold text-slate-100">
-                  Open to opportunities
-                </span>
-              </div>
-              <span className="text-xs font-mono text-emerald-500">
-                Full-time · Remote
-              </span>
-            </div>
           </motion.div>
         </motion.div>
       </motion.div>
